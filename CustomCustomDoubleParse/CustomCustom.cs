@@ -157,10 +157,11 @@ namespace CustomCustomDoubleParse
             if (!TryParseFractionalPart())
                 return Double.NaN;
             // Проверяем на переполнение.
-            if (exp > 308 || exp == 309 && fractionalPart > 17976931348623157)
+            if (exp == 309 && fractionalPart > 17976931348623157)
                 return sign < 0 ? Double.NegativeInfinity : Double.PositiveInfinity;
             // Минимальное значение отличное от нуля равно double.Epsilon.
-            return exp < -324 || exp == -323 && fractionalPart < 494065645841247 ? 0 : sign * fractionalPart * Math.Pow(10, -sFractionalPart.Length + exp);
+            double temp = fractionalPart / Math.Pow(10, sFractionalPart.Length);
+            return exp < -324 || exp == -323 && temp < .494065645841247 ? 0 : sign * temp * Math.Pow(10, exp);
         }
         static void Main()
         {
